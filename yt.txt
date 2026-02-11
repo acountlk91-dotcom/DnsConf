@@ -9,3 +9,6 @@
 188.114.97.7 yt3.ggpht.com
 188.114.97.7 s.ytimg.com
 188.114.97.7 i.ytimg.com
+188.114.97.7 t.me
+188.114.97.7 telegram.org
+188.114.97.7 web.telegram.org
