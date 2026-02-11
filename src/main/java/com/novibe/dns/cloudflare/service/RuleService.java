@@ -6,9 +6,7 @@ import com.novibe.dns.cloudflare.http.dto.request.CreateRuleRequest;
 import com.novibe.dns.cloudflare.http.dto.response.list.GatewayListDto;
 import com.novibe.dns.cloudflare.http.dto.response.rule.GatewayRuleDto;
 import com.novibe.dns.cloudflare.http.dto.response.rule.SingleRuleApiResponse;
-import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.Synchronized;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.StructuredTaskScope;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,17 +42,16 @@ public class RuleService {
         }
     }
 
-    @SneakyThrows
-    @SuppressWarnings("preview")
-    public void createNewOverrideRulesCollisionAware(Map<String, List<GatewayListDto>> lists, List<GatewayRuleDto> existingRules) {
+    public void createNewOverrideRulesCollisionAware(Map<String, List<GatewayListDto>> lists,
+            List<GatewayRuleDto> existingRules) {
         PrecedenceCounter precedenceCounter = providePrecedenceCounter(existingRules);
-        @Cleanup var scope = StructuredTaskScope.open();
-        for (Map.Entry<String, List<GatewayListDto>> entry : lists.entrySet()) {
-            String overrideIp = entry.getKey();
-            List<GatewayListDto> list = entry.getValue();
-            scope.fork(() -> createNewOverrideRule(list, overrideIp, precedenceCounter.next()));
-        }
-        scope.join();
+        List<java.util.concurrent.CompletableFuture<Void>> futures = lists.entrySet().stream()
+                .map(entry -> java.util.concurrent.CompletableFuture.runAsync(
+                        () -> createNewOverrideRule(entry.getValue(), entry.getKey(), precedenceCounter.next())))
+                .toList();
+
+        java.util.concurrent.CompletableFuture.allOf(futures.toArray(new java.util.concurrent.CompletableFuture[0]))
+                .join();
     }
 
     private void createNewOverrideRule(List<GatewayListDto> lists, String overrideIp, int precedence) {

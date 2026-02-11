@@ -41,6 +41,9 @@ public abstract class HttpRequestSender {
     @Setter(onMethod_ = @Autowired, value = AccessLevel.PACKAGE)
     private Gson jsonMapper;
 
+    @Setter(onMethod_ = @Autowired, value = AccessLevel.PACKAGE)
+    private com.novibe.common.util.RateLimiter rateLimiter;
+
     public <T> T get(String path, Class<T> responseType) {
         return sendRequest(GET, path, null, responseType);
     }
@@ -62,6 +65,9 @@ public abstract class HttpRequestSender {
             requestBody = HttpRequest.BodyPublishers.noBody();
         } else {
             requestBody = HttpRequest.BodyPublishers.ofString(body.toJson());
+        }
+        if (rateLimiter != null) {
+            rateLimiter.acquire();
         }
         semaphore.acquire();
         HttpRequest request = HttpRequest.newBuilder(uri)

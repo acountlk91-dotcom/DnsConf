@@ -1,7 +1,6 @@
 package com.novibe.common.data_sources;
 
 import com.novibe.common.util.Log;
-import lombok.Cleanup;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.StructuredTaskScope;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -30,16 +28,13 @@ public abstract class ListLoader<T> {
     protected abstract Predicate<String> filterRelatedLines();
 
     @SneakyThrows
-    @SuppressWarnings("preview")
     public List<T> fetchWebsites(List<String> urls) {
-        @Cleanup var scope = StructuredTaskScope.open();
-        List<StructuredTaskScope.Subtask<String>> requests = new ArrayList<>();
-        urls.stream()
-                .map(url -> scope.fork(() -> fetchList(url)))
-                .forEach(requests::add);
-        scope.join();
-        return requests.stream()
-                .map(StructuredTaskScope.Subtask::get)
+        List<java.util.concurrent.CompletableFuture<String>> futures = urls.stream()
+                .map(url -> java.util.concurrent.CompletableFuture.supplyAsync(() -> fetchList(url)))
+                .toList();
+
+        return futures.stream()
+                .map(java.util.concurrent.CompletableFuture::join)
                 .map(String::stripIndent)
                 .flatMap(s -> Pattern.compile("\\r?\\n").splitAsStream(s))
                 .parallel()
