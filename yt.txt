@@ -1,0 +1,13 @@
+188.114.97.7 youtube.com
+188.114.97.7 www.youtube.com
+188.114.97.7 m.youtube.com
+188.114.97.7 googlevideo.com
+188.114.97.7 *.googlevideo.com
+188.114.97.7 ytimg.com
+188.114.97.7 ggpht.com
+188.114.97.7 youtubei.googleapis.com
+188.114.97.7 yt3.ggpht.com
+188.114.97.7 s.ytimg.com
+188.114.97.7 i.ytimg.com
+45.155.204.190 glarysoft.com
+45.155.204.190 www.glarysoft.com
