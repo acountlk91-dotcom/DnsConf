@@ -12,3 +12,22 @@
 188.114.97.7 t.me
 188.114.97.7 telegram.org
 188.114.97.7 web.telegram.org
+64.233.165.93 labs.google
+
+188.114.97.7 discord.com
+188.114.97.7 gateway.discord.gg
+188.114.97.7 cdn.discordapp.com
+188.114.97.7 discordapp.com
+188.114.97.7 discord.gg
+188.114.97.7 media.discordapp.net
+188.114.97.7 images-ext-1.discordapp.net
+
+188.114.97.7 x.com
+188.114.97.7 twitter.com
+188.114.97.7 t.co
+188.114.97.7 twimg.com
+188.114.97.7 pbs.twimg.com
+188.114.97.7 video.twimg.com
+188.114.97.7 abs.twimg.com
+
+
