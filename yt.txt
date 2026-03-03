@@ -2,7 +2,6 @@
 64.233.165.93 www.youtube.com
 64.233.165.93 m.youtube.com
 64.233.165.93 googlevideo.com
-64.233.165.93 googlevideo.com
 64.233.165.93 ytimg.com
 64.233.165.93 ggpht.com
 64.233.165.93 youtubei.googleapis.com
