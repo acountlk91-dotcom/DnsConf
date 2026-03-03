@@ -30,4 +30,8 @@
 188.114.97.7 video.twimg.com
 188.114.97.7 abs.twimg.com
 
+31.25.239.132  api.apify.com
+31.25.239.132  console.apify.com
+31.25.239.132  apify.com
+
 
