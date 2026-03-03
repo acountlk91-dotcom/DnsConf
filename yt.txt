@@ -21,6 +21,7 @@
 188.114.97.7 discord.gg
 188.114.97.7 media.discordapp.net
 188.114.97.7 images-ext-1.discordapp.net
+188.114.97.7 apify.com
 
 188.114.97.7 x.com
 188.114.97.7 twitter.com
