@@ -22,7 +22,11 @@ public class HostsBlockListsLoader extends ListLoader<String> {
 
     @Override
     protected String toObject(String line) {
-        return removeWWW(removeIp(line));
+        String[] parts = line.split("\\s+", 2);
+        if (parts.length < 2) {
+            return removeWWW(line.strip());
+        }
+        return removeWWW(parts[1].strip());
     }
 
     public static boolean isBlock(String line) {
@@ -40,15 +44,6 @@ public class HostsBlockListsLoader extends ListLoader<String> {
                 return true;
         }
         return false;
-    }
-
-    private String removeIp(String line) {
-        for (String blockPrefix : BLOCK_PREFIXES) {
-            if (line.startsWith(blockPrefix)) {
-                return line.substring(blockPrefix.length()).strip();
-            }
-        }
-        return line;
     }
 
 }

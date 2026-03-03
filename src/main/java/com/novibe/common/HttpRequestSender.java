@@ -82,11 +82,11 @@ public abstract class HttpRequestSender {
             Log.fail(httpError.getMessage());
             if (response.statusCode() == 401) {
                 react401();
-                System.exit(1);
+                throw new com.novibe.common.exception.DnsAuthException("Authentication failed (401)");
             }
             if (response.statusCode() == 403) {
                 react403();
-                System.exit(1);
+                throw new com.novibe.common.exception.DnsAuthException("Forbidden access (403)");
             } else {
                 throw httpError;
             }

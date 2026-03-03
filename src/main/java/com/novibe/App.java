@@ -31,7 +31,16 @@ public class App {
         context = new AnnotationConfigApplicationContext(dnsBasePackage, commonsBasePackage);
 
         DnsTaskRunner runner = context.getBean(DnsTaskRunner.class);
-        runner.run();
+        try {
+            runner.run();
+        } catch (com.novibe.common.exception.DnsAuthException e) {
+            Log.fail("DnsTaskRunner stopped: " + e.getMessage());
+            System.exit(1);
+        }
+
+        if (context instanceof AnnotationConfigApplicationContext ctx) {
+            ctx.close();
+        }
     }
 
 }
